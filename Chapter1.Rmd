@@ -1,0 +1,184 @@
+---
+title: "Chapter 1"
+author: "Henry Hansen"
+date: "11/23/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1.1 Counting Numbers
+Following the book let's try to create a sequence of numbers and count all the numbers just using our head. 
+```{r}
+s <- c(1:10) # Create a sequence of numbers
+s # Guess what the count is
+length(s) # Count the numbers
+```
+
+Well, that was simple enough. Let's try it again with a little more obscure range. 
+
+```{r}
+ns <- c(327:573) # Create a new sequence of numbers
+cat(head(ns),".....",tail(ns), collapse = "") #Guess what the count is
+length(ns) # Count the numbers
+```
+
+So what is the underlying formula?
+$$k, k + 1, k + 2, k + 3, ....., n - 1, n$$
+And how can we get the total count mathematically?
+The first way is $n - (k - 1)$ the other way is $n - k + 1$
+
+Does that seem confusing? It certainly confused me at first but if you think about it, the first takes the difference between the highest number and one less from the lowest number. In essence, it calculated the range. The second approach calculates the range without including the lowest number, so you have to add one more to include it. 
+
+So using this perspective on math formulas let's create a simple function to illustrate the point.
+```{r}
+counter <- function(k,n) { # Declare function variables
+  n - k + 1 # Draft formula using variables
+}
+
+counter(342,576) # Input n and k
+```
+
+### Exercise 1.1.1
+```{r}
+counter(242,783)
+```
+
+
+### Exercise 1.1.2
+Problem 1 with both negative numbers
+```{r}
+counter(-10,-100) # This produces the wrong answer it should be 90
+# we need a new function that works for negatives
+
+counterN <- function(k,n) { # Declare function variables
+  abs(n - k) # Draft formula using variables
+}
+
+counterN(-10,-20)
+counterN(-20,-10)
+```
+
+Problem 2 with n is positive and k is negative
+```{r}
+counter(-10,10) # This produces the right answer
+# but lets make a new function that works for any number
+
+counterNew <- function(k,n) { # Declare function variables
+  abs(n - k) + 1 # Draft formula using variables
+}
+
+# And we can use the length function in R as a test because it performs the operation we need
+# And yes we could have used length this entire time but that's not the point!
+
+c(
+counterNew(10,13) - length(10:13), # testing all positives
+counterNew(-10,-13) - length(-10:-13), # testing all negatives
+counterNew(-13,-10) - length(-13:-10), # testing all negatives but reversed order
+counterNew(-10,13) - length(-10:13), # testing negative and positive
+counterNew(10,-13) - length(10:-13) # testing positive and negative
+)
+```
+
+## 1.2 Counting Divisible Numbers
+How do we best count even numbers? The authors suggest making a sequence of even numbers, then dividing by two so we can now see the same kind of sequence we saw in the last section. In code it would look like this. 
+
+```{r}
+en <- c(46:104) # Create sequence
+ens <- en[which(en%%2 == 0)] # Grab all even numbers from sequence
+ensd <- ens/2 # Divide all numbers
+min(ensd) # This is our k
+max(ensd) # This is our n
+counterNew(min(ensd), max(ensd)) # now we get the correct number!
+```
+But how would we develop a function that could do this with any function and any divider number? Let's try to develop a formula that could solve this and write up the function. The first step is to think about what the processes are. 
+
+1. First we identified the divisible numbers
+2. Second we created a new sequence using only those numbers
+3. We apply the counter we created before
+
+### Exercise 1.2.1
+Problems 1 thru 3
+```{r}
+p1n <- c(242:783) # Problem 1 numbers
+p2n <- c(17:783) # Problem 2 numbers
+p3n <- c(45:93) # Problem 3 numbers
+
+divCounter <- function(seq, divN) {
+nseq <- seq[which(seq%%divN == 0)] # Grab all numbers from sequence divisible by divider
+nseqd <- nseq/divN # Divide all numbers
+min(nseqd) # This is our k
+max(nseqd) # This is our n
+counterNew(min(nseqd), max(nseqd)) # now we get the correct number!
+}
+
+divCounter(p1n, 6) # applying the function to the individual problems
+divCounter(p2n, 6) # applying the function to the individual problems
+divCounter(p3n, 4) # applying the function to the individual problems
+
+```
+### Exercise 1.2.2
+Problems 1 thru 2
+```{r}
+counterNew(33,97) # problem one
+divCounter(33:97,2) # problem two
+```
+### Exercise 1.2.3
+```{r}
+divCounter(1:365, 7) # For Sundays
+divCounter(2:365, 7) # For Mondays
+```
+
+## 1.3 "I've reduced it to a solved problem"
+This set of problems is interesting. Now we have to be a little more creative in how we approach our problem. 
+
+### Exercise 1.3.1
+```{r}
+p1.3.1n <- c(242:783) # exercise 1.3 numbers
+
+notDivCounter <- function(seq, notDivN) {
+nseq <- seq[which(seq%%notDivN == 0)] # Grab all numbers from sequence divisible by divider
+nseqd <- nseq/notDivN # Divide all numbers
+min(nseqd) # This is our k
+max(nseqd) # This is our n
+notDiv <- counterNew(min(nseqd), max(nseqd)) # now we get the numbers divisible by 6
+counterNew(min(seq),max(seq)) - notDiv # all we have to do is subtract that from the total
+}
+
+counterNew(min(p1.3.1n),max(p1.3.1n)) # count all numbers
+
+notDivCounter(p1.3.1n, 6) # count all numbers not divisible by 6
+
+```
+### Exercise 1.3.2
+```{r}
+p1.3.2n <- c(1:428) # Sequence of callers
+
+divCounter(p1.3.2n, 13) * 2 # Total number of tickets for all 13th callers
+
+```
+
+
+## 1.4 Really big numbers
+### Exercise 1.4.1
+```{r}
+#time of universe in years including 2020 multiplied by number of seconds in a year
+secondsYear <- 3e+7
+years2020 <- 13700000018
+
+years2020*secondsYear
+
+
+```
+### Exercise 1.4.2
+```{r}
+#number of books in alexandria + the number of books in congress
+alexandria <- 4e+5
+congress <- 2.8e+6
+alexandria+congress
+```
+
+
+
