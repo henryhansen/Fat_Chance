@@ -7,4 +7,38 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(kableExtra)
 ```
+
+## 2.1 Choices
+The multiplication principle - is the number of ways of making a sequence of independent choices is the product of the number of choices at each step.The key is the "independent" aspect which means that how you make the first choice doesn't affect teh number of choices you have for the second, and so on. 
+
+### Exercise 2.1.1
+```{r}
+nailPolish <- 7
+fingers <- 10
+nailPolish * fingers #just multiply
+```
+
+## 2.2 Counting Words
+Let's try rebuilding the table from this chapter to better understand choices and how choices can change the outcome we are interested in. 
+
+```{r}
+n <- c(1:9) #create sequence of "words". Here we want to see up to 9 letter words
+
+f <- function(n) {
+    now <- 26 ^ n # calculate number of words
+    wor <- factorial(26) / (factorial(26 - n)) # calculate without repeats using permutations
+    perc <- round(wor/now*100,0) # calculate percentage
+    matrix(c(n, now,wor,perc))# output data
+    
+}
+out <- sapply(n, f) #run function with sequence
+kable(t(format(out, scientific = F))) # drop scientific notation, transpose list, and output table
+```
+
+### Exercise 2.2.1
+
+### Exercise 2.2.2
+
+
