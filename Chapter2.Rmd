@@ -108,7 +108,7 @@ kable(t(format(out, scientific = F)),
 
 ### Exercise 2.4.1 - 2.4.4
 ```{r}
-
+# The first exercise is taken care of for us :)
 ```
 
 
