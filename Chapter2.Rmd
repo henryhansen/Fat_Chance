@@ -34,11 +34,84 @@ f <- function(n) {
     
 }
 out <- sapply(n, f) #run function with sequence
-kable(t(format(out, scientific = F))) # drop scientific notation, transpose list, and output table
+kable(t(format(out, scientific = F)), 
+      col.names = c("Word Length",
+                    "Number of Words",
+                    "Without Repeats",
+                    "Percent Same")) # drop scientific notation, transpose list, and output table
 ```
 
 ### Exercise 2.2.1
 
+```{r}
+15 * 14 * 13 * 12 #number of options for office positions, removing one for each election
+# order of election shouldn't matter
+```
+
 ### Exercise 2.2.2
+
+```{r}
+n <- c(1:5) #create sequence of "words". Here we want to see up to 5 letter words
+
+f <- function(n,nw) { # modify function to include any "alphabet"
+    now <- nw ^ n # calculate number of words
+    wor <- factorial(nw) / (factorial(nw - n)) # calculate without repeats using permutations
+    perc <- round(wor/now*100,0) # calculate percentage
+    matrix(c(n, now,wor,perc))# output data
+    
+}
+out <- sapply(n, f, nw = 24) #run function with greek alphabet and sequence
+greek <- kable(t(format(out, scientific = F)))
+
+outR <- sapply(n, f, nw = 33) #run function with russian alphabet and sequence
+russian <- kable(t(format(outR, scientific = F)))
+ 
+kable(list(t(out),t(outR)), # compare greek and russian alphabets
+      col.names = c("Word Length",
+                           "Number of Words",
+                           "Without Repeats",
+                           "Percent Same"),
+      caption = "Greek (24 letters) vs. Russian Alphabet (33 letters)")
+```
+
+## 2.3 A Sequence of choices
+
+### Exercise 2.3.1
+
+```{r}
+total <- factorial(36) / (factorial(36 - 6)) # use second equation from the previous function
+
+cat("You have a 1 in", total, "chance to win!")
+```
+### Exercise 2.3.2
+```{r}
+n <- c(1:10) #create sequence of "words". Here we want to see up to 5 letter words
+
+f <- function(n,nw) { # modify function to include any "alphabet"
+    now <- nw ^ n # calculate number of words
+    wor <- factorial(nw) / (factorial(nw - n)) # calculate without repeats using permutations
+    perc <- round(wor/now*100,0) # calculate percentage
+    matrix(c(n, now,wor,perc))# output data
+    
+}
+out <- sapply(n, f, nw = 22)
+kable(t(format(out, scientific = F)),
+      col.names = c("Word Length",
+                           "Number of Words",
+                           "Without Repeats",
+                           "Percent Same"),
+      caption = "Hebrew Alphabet (22 letters)")
+```
+
+
+## 2.4 Factorials
+
+### Exercise 2.4.1 - 2.4.4
+```{r}
+
+```
+
+
+## 2.5 When order matters
 
 

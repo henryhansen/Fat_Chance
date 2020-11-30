@@ -449,116 +449,386 @@ nailPolish * fingers #just multiply</code></pre>
 
 f &lt;- function(n) {
     now &lt;- 26 ^ n # calculate number of words
-    wor &lt;- factorial(26) / (factorial(26 - n)) # calculate without repeats
-    perc &lt;- round(wor/now,2) # calculate percentage
-    matrix(c(now,wor,perc))# output data
+    wor &lt;- factorial(26) / (factorial(26 - n)) # calculate without repeats using permutations
+    perc &lt;- round(wor/now*100,0) # calculate percentage
+    matrix(c(n, now,wor,perc))# output data
     
 }
 out &lt;- sapply(n, f) #run function with sequence
-kable(t(format(out, scientific = F))) # drop scientific notation, transpose list, and output table</code></pre>
+kable(t(format(out, scientific = F)), 
+      col.names = c(&quot;Word Length&quot;,
+                    &quot;Number of Words&quot;,
+                    &quot;Without Repeats&quot;,
+                    &quot;Percent Diff.&quot;)) # drop scientific notation, transpose list, and output table</code></pre>
 <table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Word Length
+</th>
+<th style="text-align:left;">
+Number of Words
+</th>
+<th style="text-align:left;">
+Without Repeats
+</th>
+<th style="text-align:left;">
+Percent Diff.
+</th>
+</tr>
+</thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-26.00
+1
 </td>
 <td style="text-align:left;">
-26.00
+26
 </td>
 <td style="text-align:left;">
-1.00
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-676.00
+26
 </td>
 <td style="text-align:left;">
-650.00
-</td>
-<td style="text-align:left;">
-0.96
+100
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-17576.00
+2
 </td>
 <td style="text-align:left;">
-15600.00
+676
 </td>
 <td style="text-align:left;">
-0.89
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-456976.00
+650
 </td>
 <td style="text-align:left;">
-358800.00
-</td>
-<td style="text-align:left;">
-0.79
+96
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-11881376.00
+3
 </td>
 <td style="text-align:left;">
-7893600.00
+17576
 </td>
 <td style="text-align:left;">
-0.66
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-308915776.00
+15600
 </td>
 <td style="text-align:left;">
-165765600.00
-</td>
-<td style="text-align:left;">
-0.54
+89
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-8031810176.00
+4
 </td>
 <td style="text-align:left;">
-3315312000.00
+456976
 </td>
 <td style="text-align:left;">
-0.41
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-208827064576.00
+358800
 </td>
 <td style="text-align:left;">
-62990928000.00
-</td>
-<td style="text-align:left;">
-0.30
+79
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-5429503678976.00
+5
 </td>
 <td style="text-align:left;">
-1133836704000.00
+11881376
 </td>
 <td style="text-align:left;">
-0.21
+7893600
+</td>
+<td style="text-align:left;">
+66
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+308915776
+</td>
+<td style="text-align:left;">
+165765600
+</td>
+<td style="text-align:left;">
+54
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+8031810176
+</td>
+<td style="text-align:left;">
+3315312000
+</td>
+<td style="text-align:left;">
+41
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+208827064576
+</td>
+<td style="text-align:left;">
+62990928000
+</td>
+<td style="text-align:left;">
+30
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+5429503678976
+</td>
+<td style="text-align:left;">
+1133836704000
+</td>
+<td style="text-align:left;">
+21
 </td>
 </tr>
 </tbody>
 </table>
+<div id="exercise-2.2.1" class="section level3">
+<h3>Exercise 2.2.1</h3>
+<pre class="r"><code>15 * 14 * 13 * 12 #number of options for office positions, removing one for each election</code></pre>
+<pre><code>## [1] 32760</code></pre>
+<pre class="r"><code># order of election shouldn&#39;t matter</code></pre>
+</div>
+<div id="exercise-2.2.2" class="section level3">
+<h3>Exercise 2.2.2</h3>
+<pre class="r"><code>n &lt;- c(1:5) #create sequence of &quot;words&quot;. Here we want to see up to 5 letter words
+
+f &lt;- function(n,nw) { # modify function to include any &quot;alphabet&quot;
+    now &lt;- nw ^ n # calculate number of words
+    wor &lt;- factorial(nw) / (factorial(nw - n)) # calculate without repeats using permutations
+    perc &lt;- round(wor/now*100,0) # calculate percentage
+    matrix(c(n, now,wor,perc))# output data
+    
+}
+out &lt;- sapply(n, f, nw = 24) #run function with sequence
+greek &lt;- kable(t(format(out, scientific = F)))
+
+outR &lt;- sapply(n, f, nw = 33) #run function with sequence
+russian &lt;- kable(t(format(outR, scientific = F)))
+ 
+kable(list(t(out),t(outR)),
+      col.names = c(&quot;Word Length&quot;,
+                           &quot;Number of Words&quot;,
+                           &quot;Without Repeats&quot;,
+                           &quot;Percent Diff.&quot;),
+      caption = &quot;Greek (24 letters) vs. Russian Alphabet (33 letters)&quot;)</code></pre>
+<table class="kable_wrapper">
+<caption>
+Greek (24 letters) vs. Russian Alphabet (33 letters)
+</caption>
+<tbody>
+<tr>
+<td>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+Word Length
+</th>
+<th style="text-align:right;">
+Number of Words
+</th>
+<th style="text-align:right;">
+Without Repeats
+</th>
+<th style="text-align:right;">
+Percent Diff.
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+100
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+576
+</td>
+<td style="text-align:right;">
+552
+</td>
+<td style="text-align:right;">
+96
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+13824
+</td>
+<td style="text-align:right;">
+12144
+</td>
+<td style="text-align:right;">
+88
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+331776
+</td>
+<td style="text-align:right;">
+255024
+</td>
+<td style="text-align:right;">
+77
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+7962624
+</td>
+<td style="text-align:right;">
+5100480
+</td>
+<td style="text-align:right;">
+64
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+Word Length
+</th>
+<th style="text-align:right;">
+Number of Words
+</th>
+<th style="text-align:right;">
+Without Repeats
+</th>
+<th style="text-align:right;">
+Percent Diff.
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+33
+</td>
+<td style="text-align:right;">
+33
+</td>
+<td style="text-align:right;">
+100
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1089
+</td>
+<td style="text-align:right;">
+1056
+</td>
+<td style="text-align:right;">
+97
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+35937
+</td>
+<td style="text-align:right;">
+32736
+</td>
+<td style="text-align:right;">
+91
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+1185921
+</td>
+<td style="text-align:right;">
+982080
+</td>
+<td style="text-align:right;">
+83
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+39135393
+</td>
+<td style="text-align:right;">
+28480320
+</td>
+<td style="text-align:right;">
+73
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 
 
